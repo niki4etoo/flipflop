@@ -7,15 +7,93 @@ import freshPotatoes from './images/fresh-potatoes.png';
 import redApple from './images/red-apple.png';
 import eclair from './images/eclair.png';
 import cake from './images/cake.png';
+import tryAgain from './images/tryAgain.webp';
 
-var stayFlipped = 800; // 0.8 second
+let isFlipped = [ false, false, false, false, false, false, false, false ];
+let cards = [];
+
+let flippedCardsCounter = 0;
+let allFlippedCounter = 0;
+let pairs = [];
+
+//list of matching cards 5-4, 2-7, 1-8, 3-6
+
+
+
+function cardMatching(number){
+	pairs.push(number);
+	
+	if(pairs.length === 2){
+		//Make other cards not clickable during the pairs flip
+		var classCards = document.querySelector('div.cards');
+		classCards.style = 'pointer-events: none'; // disable clicking on the other cards until 1.5 seconds
+		
+		console.log("Show pairs: " + pairs[0] + " " + pairs[1]);
+				
+		//To do Flip back the pairs and check for matching
+		if((pairs[0] === 2 && pairs[1] === 7) || (pairs[0] === 7 && pairs[1] === 2)) {
+			console.log("Match found! 2 - 7 apples");
+			
+			classCards.style = 'pointer-events: auto';
+			pairs = [];
+		} else if((pairs[0] === 3 && pairs[1] === 6) || (pairs[0] === 6 && pairs[1] === 3)) {
+			console.log("Match found! 3 - 6 eclairs");
+			
+			classCards.style = 'pointer-events: auto';
+			pairs = [];
+		} else if((pairs[0] === 5 && pairs[1] === 4) || (pairs[0] === 4 && pairs[1] === 5)) {
+			console.log("Match found! 5 - 4 cakes");
+			
+			classCards.style = 'pointer-events: auto';
+			pairs = [];
+		} else if((pairs[0] === 1 && pairs[1] === 8) || (pairs[0] === 8 && pairs[1] === 1)) {
+			console.log("Match found! 3 - 6 potatoes");
+			
+			classCards.style = 'pointer-events: auto';
+			pairs = [];
+		} else {
+			setTimeout(() => {
+				cards[pairs[0] - 1].style = 'transform: rotateY(0deg);';
+				cards[pairs[1] - 1].style = 'transform: rotateY(0deg);';
+				
+				isFlipped[pairs[0] - 1] = false;
+				isFlipped[pairs[1] - 1] = false;
+				
+				pairs = []; // Nullify the pairs
+				classCards.style = 'pointer-events: auto'; //enable clicking again on the cards
+			}, 1500);
+		}
+		
+		for(var f of isFlipped){
+			if(f) {
+				allFlippedCounter++;
+			} else {
+				allFlippedCounter = 0;
+				break;
+			}
+			if (allFlippedCounter === 8) {
+				console.log("All cards are flipped - Congratulations! You won!");
+				
+				var cardElements = document.querySelector('div.cards');
+				cardElements.innerHTML = "";
+				
+				var winnerElement = document.querySelector('div.winner');
+				winnerElement.innerHTML = `<h1>All cards are flipped - Congratulations! You Won! </h1><br /><a href="." style="margin: 10px;"><p>Again?</p><br />
+				<img src=${tryAgain} alt="try again" width="480" height="271" /></a>`;
+			}
+		}
+		
+		flippedCardsCounter = 0; // Start counter from zero again
+		
+	}
+}
 
 const flipCardUno = () => {
 	console.log("first card is clicked");
 	
-	var cardNumeroUno = document.querySelector('div.numero.uno');
+	cards[0] = document.querySelector('div.numero.uno');
 	
-	cardNumeroUno.style = `
+	cards[0].style = `
 	transform: rotateY(180deg);
 	background-image: url(${freshPotatoes});
 	background-repeat: no-repeat;
@@ -25,17 +103,20 @@ const flipCardUno = () => {
 	border-color: black;
 	`;
 	
-	setTimeout(() => {
-			cardNumeroUno.style= "transform: rotateY(0deg);";
-		}, stayFlipped);
-};
+	if(!isFlipped[0]){
+		isFlipped[0] = true;
+		
+		++flippedCardsCounter;
+		cardMatching(1);
+	}
+}
 
 const flipCardDue = () => {
 	console.log("Second card is clicked");
 	
-	var cardNumeroDue = document.querySelector('div.numero.due');
+	cards[1] = document.querySelector('div.numero.due');
 	
-	cardNumeroDue.style = `
+	cards[1].style = `
 	transform: rotateY(180deg);
 	background-image: url(${redApple});
 	background-repeat: no-repeat;
@@ -45,17 +126,20 @@ const flipCardDue = () => {
 	border-color: black;
 	`;
 	
-	setTimeout(() => {
-			cardNumeroDue.style= "transform: rotateY(0deg);";
-		}, stayFlipped);
+	if(!isFlipped[1]){
+		isFlipped[1] = true;
+		
+		++flippedCardsCounter;
+		cardMatching(2);
+	}
 };
 
 const flipCardTre = () => {
 	console.log("third card is clicked");
 	
-	var cardNumeroTre = document.querySelector('div.numero.tre');
+	cards[2] = document.querySelector('div.numero.tre');
 	
-	cardNumeroTre.style = `
+	cards[2].style = `
 	transform: rotateY(180deg);
 	background-image: url(${eclair});
 	background-repeat: no-repeat;
@@ -65,17 +149,20 @@ const flipCardTre = () => {
 	border-color: black;
 	`;
 	
-	setTimeout(() => {
-			cardNumeroTre.style= "transform: rotateY(0deg);";
-		}, stayFlipped);
+	if(!isFlipped[2]){
+		isFlipped[2] = true;
+		
+		++flippedCardsCounter;
+		cardMatching(3);
+	}
 };
 
 const flipCardQuatro = () => {
 	console.log("fourth card is clicked");
 	
-	var cardNumeroQuatro = document.querySelector('div.numero.quatro');
+	cards[3] = document.querySelector('div.numero.quatro');
 	
-	cardNumeroQuatro.style = `
+	cards[3].style = `
 	transform: rotateY(180deg);
 	background-image: url(${cake});
 	background-repeat: no-repeat;
@@ -85,17 +172,20 @@ const flipCardQuatro = () => {
 	border-color: black;
 	`;
 	
-	setTimeout(() => {
-			cardNumeroQuatro.style= "transform: rotateY(0deg);";
-		}, stayFlipped);
+	if(!isFlipped[3]){
+		isFlipped[3] = true;
+		
+		++flippedCardsCounter;
+		cardMatching(4);
+	}
 };
 
 const flipCardCinque = () => {
 	console.log("fifth card is clicked");
 	
-	var cardNumeroCinque = document.querySelector('div.numero.cinque');
+	cards[4] = document.querySelector('div.numero.cinque');
 	
-	cardNumeroCinque.style = `
+	cards[4].style = `
 	transform: rotateY(180deg);
 	background-image: url(${cake});
 	background-repeat: no-repeat;
@@ -105,17 +195,20 @@ const flipCardCinque = () => {
 	border-color: black;
 	`;
 	
-	setTimeout(() => {
-			cardNumeroCinque.style= "transform: rotateY(0deg);";
-		}, stayFlipped);
+	if(!isFlipped[4]){
+		isFlipped[4] = true;
+		
+		++flippedCardsCounter;
+		cardMatching(5);
+	}
 };
 
 const flipCardSei = () => {
 	console.log("sixth card is clicked");
 	
-	var cardNumeroSei = document.querySelector('div.numero.sei');
+	cards[5] = document.querySelector('div.numero.sei');
 	
-	cardNumeroSei.style = `
+	cards[5].style = `
 	transform: rotateY(180deg);
 	background-image: url(${eclair});
 	background-repeat: no-repeat;
@@ -125,17 +218,20 @@ const flipCardSei = () => {
 	border-color: black;
 	`;
 	
-	setTimeout(() => {
-			cardNumeroSei.style= "transform: rotateY(0deg);";
-		}, stayFlipped);
+	if(!isFlipped[5]){
+		isFlipped[5] = true;
+		
+		++flippedCardsCounter;
+		cardMatching(6);
+	}
 };
 
 const flipCardSette = () => {
 	console.log("seventh card is clicked");
 	
-	var cardNumeroSette = document.querySelector('div.numero.sette');
+	cards[6] = document.querySelector('div.numero.sette');
 	
-	cardNumeroSette.style = `
+	cards[6].style = `
 	transform: rotateY(180deg);
 	background-image: url(${redApple});
 	background-repeat: no-repeat;
@@ -145,17 +241,20 @@ const flipCardSette = () => {
 	border-color: black;
 	`;
 	
-	setTimeout(() => {
-			cardNumeroSette.style= "transform: rotateY(0deg);";
-		}, stayFlipped);
+	if(!isFlipped[6]){
+		isFlipped[6] = true;
+		
+		++flippedCardsCounter;
+		cardMatching(7);
+	}
 };
 
 const flipCardOtto = () => {
 	console.log("eighth card is clicked");
 	
-	var cardNumeroOtto = document.querySelector('div.numero.otto');
+	cards[7] = document.querySelector('div.numero.otto');
 	
-	cardNumeroOtto.style = `
+	cards[7].style = `
 	transform: rotateY(180deg);
 	background-image: url(${freshPotatoes});
 	background-repeat: no-repeat;
@@ -165,15 +264,19 @@ const flipCardOtto = () => {
 	border-color: black;
 	`;
 	
-	setTimeout(() => {
-			cardNumeroOtto.style= "transform: rotateY(0deg);";
-		}, stayFlipped);
+	if(!isFlipped[7]){
+		isFlipped[7] = true;
+		
+		++flippedCardsCounter;
+		console.log(flippedCardsCounter);
+		cardMatching(8);
+	}
 };
 
 export default function App() {
   return (
     <Container>
-		<Cards>
+		<Cards className="cards">
 		
 			<div className="numero uno" onClick={flipCardUno}></div>
 			<div className="numero due" onClick={flipCardDue}></div>
@@ -186,6 +289,7 @@ export default function App() {
 			<div className="numero otto" onClick={flipCardOtto}></div>
 			
 		</Cards>
+		<div className="winner"></div>
     </Container>
   );
 }
@@ -216,7 +320,7 @@ const Cards = styled.div`
 		background-image: url(${carbonTexture});
 		color: white;
 		
-		transition: transform 0.6s, background-image 0.6s;
+		transition: transform 1s, background-image 0.6s;
 		transform-style: preserve-3d;
 	}
 	
