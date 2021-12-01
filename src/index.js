@@ -1,12 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import App from './App';
+import FlipFlop from './FlipFlop';
+import Settings from './Settings';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+	<BrowserRouter>
+		<Routes>
+			<Route path="/" element={<App />} />
+			<Route path="/FlipFlop" element={<FlipFlop />} />
+			<Route path="/Settings" element={<Settings />} />
+		</Routes>
+	</BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
