@@ -7,10 +7,10 @@ export default function App() {
   return (
     <>
 		<div className="menu">
-			<div></div>
-			<div><Link to="/FlipFlop">Start</Link></div>
-			<div><Link to="/Settings">Settings</Link></div>
-			<div></div>
+			<div>Settings</div>
+			<div>Style</div>
+			<div>Cards</div>
+			<div><Link to="/">Back</Link></div>
 		</div>
     </>
   );
