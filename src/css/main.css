@@ -30,10 +30,22 @@
 	*/
 	
 	display: flex;
+	flex-direction: column;
+	
+	gap: 20px;
 	
 	justify-content: center;
 	align-items: center; 
 	
+}
+
+.menu select {
+	width: 120px;
+	height: 40px;
+	
+	font-size: 28px;
+	text-align: center;
+	letter-spacing: 2px;
 }
 
 a, a:visited, a:active {
