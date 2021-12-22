@@ -10,7 +10,7 @@ export default class App extends React.Component {
 			<>
 				<div className="menu">
 					<div></div>
-					<div><Link to="/FlipFlop">Start</Link></div>
+					<div><Link to="/FlipFlop" title="Flip Flop">Start</Link></div>
 					<div><Link to="/Settings">Settings</Link></div>
 					<div></div>
 				</div>

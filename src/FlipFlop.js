@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import './css/main.css';
-
-import freshPotatoes from './images/fresh-potatoes.png';
-import redApple from './images/red-apple.png';
-import eclair from './images/eclair.png';
-import cake from './images/cake.png';
+import freshPotatoes from './images/fresh-potatoes.webp';
+import redApple from './images/red-apple.webp';
+import eclair from './images/eclair.webp';
+import cake from './images/cake.webp';
 import tryAgain from './images/tryAgain.webp';
+
+import './css/main.css';
 
 let isFlipped = [ false, false, false, false, false, false, false, false ];
 let cards = [];
@@ -17,8 +17,6 @@ let allFlippedCounter = 0;
 let pairs = [];
 
 //list of matching cards 5-4, 2-7, 1-8, 3-6
-
-
 
 function cardMatching(number){
 	pairs.push(number);
